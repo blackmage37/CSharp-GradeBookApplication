@@ -50,7 +50,7 @@ namespace GradeBook.UserInterfaces
                     gradeBook = new StandardGradeBook(name);
                     break;
                 case "ranked":
-                    gradeBook = new BaseGradeBook(name);
+                    gradeBook = new RankedGradeBook(name);
                     break;
 
                 default:
