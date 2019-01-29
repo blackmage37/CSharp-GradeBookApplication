@@ -1,4 +1,6 @@
 ﻿using GradeBook.Enums;
+using System;
+using System.Linq;
 
 namespace GradeBook.GradeBooks
 {
@@ -16,33 +18,19 @@ namespace GradeBook.GradeBooks
                 throw new System.InvalidOperationException("Ranked-grading requires a minimum of 5 students to work");
             }
 
-            int sRank = Students.Count + 1;
+            var threshold = (int)Math.Ceiling(Students.Count * 0.2);
+            var grades = Students.OrderByDescending(e => e.AverageGrade).Select(e => e.AverageGrade).ToList();
 
-            foreach (Student s in Students)
-            {
-
-                if (averageGrade > s.AverageGrade) { sRank -= 1; }
-
-            }
-
-            float fRank = sRank / Students.Count;
-
-            if (fRank <= 0.2)
-            {
+            if (averageGrade >= grades[threshold - 1])
                 return 'A';
-            } else if(fRank <= 0.4)
-            {
+            if (averageGrade >= grades[(threshold * 2) - 1])
                 return 'B';
-            } else if(fRank <= 0.6)
-            {
+            if (averageGrade >= grades[(threshold * 3) - 1])
                 return 'C';
-            } else if(fRank <= 0.8)
-            {
+            if (averageGrade >= grades[(threshold * 4) - 1])
                 return 'D';
-            } else
-            {
-                return 'F';
-            }
+
+            return 'F';
 
         }
 
